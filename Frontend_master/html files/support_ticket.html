@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raise Support Ticket</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .ticket-container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            color: #007acc;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .page-description {
+            font-size: 16px;
+            color: #555555;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .required-label::after {
+            content: "*";
+            color: red;
+            margin-left: 4px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .btn-submit,
+        .btn-cancel,
+        .btn-live-chat {
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 150px;
+        }
+
+        .btn-submit {
+            background-color: #007acc;
+            color: white;
+            border: none;
+        }
+
+        .btn-submit:hover {
+            background-color: #005f99;
+        }
+
+        .btn-cancel {
+            background-color: #f44336;
+            color: white;
+            border: none;
+        }
+
+        .btn-cancel:hover {
+            background-color: #d32f2f;
+        }
+
+        .btn-live-chat {
+            background-color: #28a745;
+            color: white;
+            border: none;
+        }
+
+        .btn-live-chat:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="ticket-container">
+        <h1 class="page-title">Raise Support Ticket</h1>
+        <p class="page-description">Fill in the details below to raise a support ticket</p>
+
+        <form action="ticket_submitted.html" method="POST">
+            
+            <div class="form-group">
+                <label for="ticket-subject" class="required-label">Ticket Subject</label>
+                <input type="text" id="ticket-subject" name="ticket-subject" placeholder="Enter the subject of your issue" required>
+            </div>
+
+            
+            <div class="form-group">
+                <label for="ticket-description" class="required-label">Ticket Description</label>
+                <textarea id="ticket-description" name="ticket-description" rows="6" placeholder="Describe your issue in detail" required></textarea>
+            </div>
+
+            
+            <div class="form-group">
+                <label for="contact-email" class="required-label">Email Address</label>
+                <input type="email" id="contact-email" name="contact-email" placeholder="Enter your email address" required>
+            </div>
+
+            
+            <div class="form-group">
+                <label for="ticket-attachment">Attach Files (Optional)</label>
+                <input type="file" id="ticket-attachment" name="ticket-attachment" accept="image/*, .pdf, .doc, .docx, .txt">
+            </div>
+
+            
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">Submit Ticket</button>
+                <button type="button" class="btn-cancel" onclick="window.location.href='loan_dashboard.html';">Cancel</button>
+                <button type="button" class="btn-live-chat" onclick="window.location.href='live_chat.html';">Live Chat</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

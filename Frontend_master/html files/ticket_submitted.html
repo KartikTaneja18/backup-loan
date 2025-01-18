@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Submitted - Loan Dispersion</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e3f2fd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .confirmation-container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .confirmation-title {
+            font-size: 28px;
+            color: #007acc;
+            margin-bottom: 20px;
+        }
+
+        .confirmation-message {
+            font-size: 18px;
+            color: #555555;
+            margin-bottom: 30px;
+        }
+
+        .btn-dashboard {
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #007acc;
+            color: white;
+            border: none;
+            transition: background-color 0.3s;
+            width: 200px;
+        }
+
+        .btn-dashboard:hover {
+            background-color: #005f99;
+        }
+    </style>
+</head>
+<body>
+    <div class="confirmation-container">
+        <h1 class="confirmation-title">Ticket Submitted Successfully!</h1>
+        <p class="confirmation-message">Your support ticket has been successfully submitted. Our team will get back to you shortly.</p>
+        <button class="btn-dashboard" onclick="window.location.href='loan_dashboard.html';">Go to Dashboard</button>
+    </div>
+</body>
+</html>

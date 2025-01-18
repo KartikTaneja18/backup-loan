@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Application Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e6f7ff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        .form-container {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+        .form-container h1 {
+            text-align: center;
+            color: #007acc;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        .required-label::after {
+            content: "*";
+            color: red;
+            margin-left: 4px;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        .form-group input[type="file"] {
+            padding: 6px;
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .form-group small {
+            display: block;
+            margin-top: 4px;
+            color: #666;
+            font-size: 12px;
+        }
+        .form-group button {
+            width: 100%;
+            background-color: #007acc;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .form-group button:hover {
+            background-color: #005f99;
+        }
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 20px;
+            }
+            .form-container h1 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Loan Application Form</h1>
+        <form action="loan_dashboard.html" method="GET">
+            <div class="form-group">
+                <label for="full-name" class="required-label">Full Name</label>
+                <input type="text" id="full-name" name="full_name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="required-label">Email Address</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone-number" class="required-label">Phone Number</label>
+                <input type="tel" id="phone-number" name="phone_number" required>
+            </div>
+
+            <div class="form-group">
+                <label for="loan-amount" class="required-label">Loan Amount</label>
+                <input type="number" id="loan-amount" name="loan_amount" required>
+            </div>
+
+            <div class="form-group">
+                <label for="tenure" class="required-label">Loan Tenure (in years)</label>
+                <input type="number" id="tenure" name="loan_tenure" required>
+            </div>
+
+            <div class="form-group">
+                <label for="purpose" class="required-label">Purpose of Loan</label>
+                <textarea id="purpose" name="loan_purpose" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="location" class="required-label">Location</label>
+                <input type="text" id="location" name="location" placeholder="City/Town/Village" required>
+            </div>
+
+            <div class="form-group">
+                <label for="state" class="required-label">State</label>
+                <input type="text" id="state" name="state" required>
+            </div>
+
+            <div class="form-group">
+                <label for="pincode" class="required-label">Pincode</label>
+                <input type="text" id="pincode" name="pincode" pattern="\d{6}" title="Please enter a valid 6-digit pincode" required>
+            </div>
+
+            <div class="form-group">
+                <label for="income-proof" class="required-label">Upload Income Proof</label>
+                <input type="file" id="income-proof" name="income_proof" accept=".pdf,.jpg,.jpeg,.png" required>
+                <small>Accepted documents: Salary Slip, Bank Statement, Income Tax Return (ITR), or Form 16.</small>
+            </div>
+
+            <div class="form-group">
+                <label for="address-proof" class="required-label">Upload Address Proof</label>
+                <input type="file" id="address-proof" name="address_proof" accept=".pdf,.jpg,.jpeg,.png" required>
+                <small>Accepted documents: Aadhaar Card, Utility Bill, Rent Agreement, or Passport.</small>
+            </div>
+
+            <div class="form-group">
+                <label for="id-proof" class="required-label">Upload ID Proof</label>
+                <input type="file" id="id-proof" name="id_proof" accept=".pdf,.jpg,.jpeg,.png" required>
+                <small>Accepted documents: Aadhaar Card, PAN Card, Driving License, or Passport.</small>
+            </div>
+
+            <div class="form-group">
+                <label for="additional-docs">Upload Additional Documents (if any)</label>
+                <input type="file" id="additional-docs" name="additional_documents" accept=".pdf,.jpg,.jpeg,.png">
+            </div>
+
+            <div class="form-group">
+                <button type="submit">Submit Application</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

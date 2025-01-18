@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Loan Management - LTI Mindtree</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="loan-management-container">
+        <header class="header">
+            <h1>LTI Mindtree Employee Loan Management System</h1>
+        </header>
+
+        <main class="content">
+            <section class="automated-approval">
+                <h2>Automated Loan Approval</h2>
+                <p>Click the button below to automatically approve eligible loan applications based on system analysis.</p>
+                
+                <button class="btn-automate" onclick="window.location.href='Automatic_loan_approval.html';">Automate Loan Approvals</button>
+            </section>
+
+            <section class="manual-review">
+                <h2>Manual Loan Review</h2>
+                <form action="Manual_loan_review.html" method="GET"> 
+                    <div class="form-group">
+                        <label for="loan-id">Loan ID <span class="mandatory">*</span></label>
+                        <input type="text" id="loan-id" name="loan_id" placeholder="Enter Loan ID for manual review" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="comments">Review Comments <span class="mandatory">*</span></label>
+                        <textarea id="comments" name="comments" placeholder="Add review comments" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-review">Submit Review</button>
+                </form>
+            </section>
+
+            <section class="direct-approval">
+                <h2>Direct Loan Approval</h2>
+                <form action="direct_loan_approval.html" method="POST">
+                    <div class="form-group">
+                        <label for="loan-id">Loan ID <span class="mandatory">*</span></label>
+                        <input type="text" id="loan-id" name="loan_id" placeholder="Enter Loan ID" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="amount">Loan Amount <span class="mandatory">*</span></label>
+                        <input type="number" id="amount" name="amount" placeholder="Enter Loan Amount" required>
+                    </div>
+                    <button type="submit" class="btn-approve">Approve Loan</button>
+                </form>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2024 LTI Mindtree. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #e3f2fd; 
+        color: #333;
+    }
+
+    .loan-management-container {
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 20px;
+        background: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .header h1 {
+        font-size: 24px;
+        color: #1d4ed8;
+    }
+
+    .content section {
+        margin-bottom: 30px;
+        padding: 20px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+
+    .content h2 {
+        font-size: 20px;
+        color: #1e40af;
+        margin-bottom: 10px;
+    }
+
+    .content p {
+        margin-bottom: 15px;
+        font-size: 14px;
+        color: #555;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    .form-group .mandatory {
+        color: red;
+        font-size: 16px;
+    }
+
+    .form-group input, .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    .btn-automate, .btn-review, .btn-approve {
+        background-color: #10b981;
+        color: #ffffff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-automate:hover, .btn-review:hover, .btn-approve:hover {
+        background-color: #059669;
+    }
+
+    .footer {
+        text-align: center;
+        margin-top: 30px;
+        font-size: 12px;
+        color: #666;
+    }
+</style>

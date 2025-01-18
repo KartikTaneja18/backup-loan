@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration - LTI Mindtree</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-form">
+            <h1 class="company-name">LTI Mindtree Portal</h1>
+            <p class="welcome-message">Create your account by filling the form below.</p>
+            <form action="login_page.html" method="POST">
+                <div class="form-group">
+                    <label for="full-name">Full Name <span class="mandatory">*</span></label>
+                    <input type="text" id="full-name" name="full_name" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email <span class="mandatory">*</span></label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone-number">Phone Number <span class="mandatory">*</span></label>
+                    <input type="tel" id="phone-number" name="phone_number" placeholder="Enter your phone number" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password <span class="mandatory">*</span></label>
+                    <input type="password" id="password" name="password" placeholder="Create a password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password <span class="mandatory">*</span></label>
+                    <input type="password" id="confirm-password" name="confirm_password" placeholder="Confirm your password" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-login">Register</button>
+                </div>
+            </form>
+            <div class="register-section">
+                <p class="register-message">Already have an account?</p>
+                <a href="login_page.html" class="btn-register">Log In</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #dbeafe; 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .login-container {
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 25px 35px;
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .login-form h1 {
+        margin: 0 0 20px;
+        font-size: 26px;
+        color: #1d4ed8; 
+        text-align: center;
+    }
+
+    .welcome-message {
+        margin-bottom: 20px;
+        font-size: 14px;
+        text-align: center;
+        color: #555555;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 14px;
+        color: #333333;
+    }
+
+    .form-group .mandatory {
+        color: red;
+        font-size: 16px;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+        font-size: 14px;
+        background-color: #f9f9f9;
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .btn-login {
+        background-color: #0056b3;
+        color: #ffffff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .btn-login:hover {
+        background-color: #003f7f;
+    }
+
+    .register-section {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .register-message {
+        font-size: 14px;
+        color: #333333;
+    }
+
+    .btn-register {
+        display: inline-block;
+        margin-top: 10px;
+        background-color: #10b981; 
+        color: #ffffff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .btn-register:hover {
+        background-color: #059669;
+    }
+</style>

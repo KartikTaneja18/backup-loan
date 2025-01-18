@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Repayment Schedule</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e3f2fd; 
+            color: #333;
+        }
+
+        .repayment-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            color: #007acc;
+        }
+
+        .section-title {
+            font-size: 24px;
+            color: #007acc;
+            margin-bottom: 20px;
+        }
+
+        .payment-method {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f1f8ff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .payment-method h2 {
+            margin-top: 0;
+            font-size: 20px;
+            color: #0056b3;
+        }
+
+        .payment-method label {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .required-field::after {
+            content: " *";
+            color: red;
+        }
+
+        .payment-method input, .payment-method select, .payment-method textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .payment-method button {
+            background-color: #007acc;
+            color: white;
+            border: none;
+            padding: 12px 24px; 
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .payment-method button:hover {
+            background-color: #005f99;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-actions {
+            text-align: center;
+        }
+
+        .form-actions button {
+            width: 200px;  
+            padding: 12px 24px; 
+            font-size: 18px;  
+            border-radius: 8px;  
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin: 10px;  
+        }
+
+        .form-actions button[type="button"] {
+            background-color: #f44336;
+            color: white;
+            border: none;
+        }
+
+        .form-actions button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="repayment-container">
+        <div class="header">
+            <h1>Loan Repayment Schedule</h1>
+            <p>Choose a payment method and schedule your loan repayment.</p>
+        </div>
+
+        <div class="payment-method">
+            <h2>Loan Repayment Details</h2>
+            <form id="loan-form">
+                <div class="form-group">
+                    <label for="repayment-frequency" class="required-field">Repayment Frequency</label>
+                    <select id="repayment-frequency" name="repayment-frequency" required>
+                        <option value="monthly">Monthly</option>
+                        <option value="quarterly">Quarterly</option>
+                        <option value="yearly">Yearly</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="start-date" class="required-field">Start Date</label>
+                    <input type="date" id="start-date" name="start-date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="additional-comments">Additional Comments</label>
+                    <textarea id="additional-comments" name="additional-comments" rows="4" placeholder="Any additional comments"></textarea>
+                </div>
+            </form>
+        </div>
+
+        <div class="payment-method">
+            <h2>Credit/Debit Card Payment</h2>
+            <form id="card-payment-form" action="payment_has_processed.html" method="post" onsubmit="return validateLoanDetails();">
+                <label for="card-number" class="required-field">Card Number</label>
+                <input type="text" id="card-number" name="card-number" placeholder="Enter your card number" required>
+                
+                <label for="expiry-date" class="required-field">Expiry Date</label>
+                <input type="month" id="expiry-date" name="expiry-date" required>
+                
+                <label for="cvv" class="required-field">CVV</label>
+                <input type="text" id="cvv" name="cvv" placeholder="Enter your CVV" required>
+                
+                <button type="submit">Process Payment</button>
+            </form>
+        </div>
+
+        <div class="payment-method">
+            <h2>UPI Payment</h2>
+            <form id="upi-payment-form" action="payment_has_processed.html" method="post" onsubmit="return validateLoanDetails();">
+                <label for="upi-id" class="required-field">UPI ID</label>
+                <input type="text" id="upi-id" name="upi-id" placeholder="Enter your UPI ID" required>
+                
+                <label for="upi-password" class="required-field">UPI Password</label>
+                <input type="password" id="upi-password" name="upi-password" placeholder="Enter your UPI password" required>
+                
+                <button type="submit">Process Payment</button>
+            </form>
+        </div>
+
+        <div class="payment-method">
+            <h2>Net Banking Payment</h2>
+            <form id="net-banking-form" action="payment_has_processed.html" method="post" onsubmit="return validateLoanDetails();">
+                <label for="bank-name" class="required-field">Bank Name</label>
+                <input type="text" id="bank-name" name="bank-name" placeholder="Enter your bank name" required>
+                
+                <label for="account-number" class="required-field">Account Number</label>
+                <input type="text" id="account-number" name="account-number" placeholder="Enter your account number" required>
+                
+                <label for="ifsc-code" class="required-field">IFSC Code</label>
+                <input type="text" id="ifsc-code" name="ifsc-code" placeholder="Enter your IFSC code" required>
+                
+                <button type="submit">Process Payment</button>
+            </form>
+        </div>
+
+        <div class="payment-method">
+            <h2>Other Payment Methods</h2>
+            <form id="other-payment-form" action="payment_has_processed.html" method="post" onsubmit="return validateLoanDetails();">
+                <label for="payment-method" class="required-field">Select Payment Method</label>
+                <select id="payment-method" name="payment-method" required>
+                    <option value="bank-transfer">Bank Transfer</option>
+                    <option value="wallet">Digital Wallet</option>
+                    <option value="cash">Cash Payment</option>
+                </select>
+                
+                <label for="payment-details" class="required-field">Payment Details</label>
+                <input type="text" id="payment-details" name="payment-details" placeholder="Enter your payment details" required>
+                
+                <button type="submit">Process Payment</button>
+            </form>
+        </div>
+
+        <div class="form-actions">
+            <button type="button" style="background-color: #f44336; color: white;" onclick="window.location.href='loan_dashboard.html';">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        function validateLoanDetails() {
+            const repaymentFrequency = document.getElementById("repayment-frequency").value;
+            const startDate = document.getElementById("start-date").value;
+            
+            if (!repaymentFrequency || !startDate) {
+                alert("Please fill in all required fields before proceeding with the payment.");
+                return false; 
+            }
+            return true; 
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+/* factors_effecting_credit_score.css */
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to right, #b3e5fc, #e3f2fd);
+  color: #333;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border: 1px solid #dfe6ed;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.header h1 {
+  font-size: 40px;
+  color: #1565c0;
+  margin: 0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.header p {
+  font-size: 18px;
+  color: #666;
+  margin-top: 10px;
+}
+
+.factors-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.factors-list li {
+  background: #f9fbfd;
+  border: 1px solid #cce1f0;
+  margin: 15px 0;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+}
+
+.factors-list li h2 {
+  font-size: 20px;
+  color: #0d47a1;
+  margin: 0;
+  flex: 1;
+}
+
+.factors-list li p {
+  font-size: 16px;
+  color: #444;
+  margin: 0;
+  flex: 2;
+  padding-left: 15px;
+}
+
+.factors-list li::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  background-color: #0d47a1;
+  border-radius: 50%;
+  margin-right: 15px;
+}
