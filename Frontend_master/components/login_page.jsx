@@ -1,14 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import '../styles/login_page.css';
-//routing done
 
-export function LoginPage () {
+export function LoginPage() {
     const navigate = useNavigate();
+    const [emailOrPhone, setEmailOrPhone] = useState('');
+    const [password, setPassword] = useState('');
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        navigate('/otp_login_page');
+
+        try {
+            const response = await axios.post('http://localhost:5000/api/login', {
+                email_or_phone: emailOrPhone,
+                password: password,
+            });
+
+            if (response.data.success) {
+                alert('Login successful! OTP sent to your email.');
+                // Save email_or_phone to localStorage for use in OTP verification
+                localStorage.setItem('emailOrPhone', emailOrPhone);
+                navigate('/otp_login_page');
+            } else {
+                alert(response.data.message || 'Login failed. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error during login:', error);
+            alert('An error occurred while logging in. Please try again.');
+        }
     };
 
     return (
@@ -25,6 +45,8 @@ export function LoginPage () {
                             name="email_or_phone" 
                             placeholder="Enter your email or phone number" 
                             required 
+                            value={emailOrPhone}
+                            onChange={(e) => setEmailOrPhone(e.target.value)}
                         />
                     </div>
                     <div className="form-group">
@@ -35,6 +57,8 @@ export function LoginPage () {
                             name="password" 
                             placeholder="Enter your password" 
                             required 
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
                     <div className="form-actions">
