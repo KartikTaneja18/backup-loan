@@ -31,7 +31,7 @@ export function OTPVerificationPage() {
       if (data.success) {
         alert("OTP verified successfully!");
         setOtp(""); // Clear OTP field
-        navigate("/loan_application"); // Navigate to the loan application form
+        navigate("/application_form"); // Navigate to the loan application form
       } else {
         alert(data.message || "Invalid OTP. Please try again.");
         setOtp(""); // Clear OTP field
@@ -45,12 +45,12 @@ export function OTPVerificationPage() {
 
   const handleResendOTP = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/login", {
+      const response = await fetch("http://localhost:5000/api/resend-otp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email_or_phone: emailOrPhone, resend: true }), // Resend flag
+        body: JSON.stringify({ email_or_phone: emailOrPhone }),
       });
 
       const data = await response.json();
@@ -101,3 +101,4 @@ export function OTPVerificationPage() {
     </div>
   );
 }
+

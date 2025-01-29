@@ -29,7 +29,7 @@ const sendOtpEmail = (email, otp, isBlocked = false) => {
       ? "Too Many Failed Attempts - OTP Blocked"
       : "Your OTP for Login to LTIMindtree Portal",
     text: isBlocked
-      ? `Your account has been temporarily blocked due to too many failed OTP attempts. Please try again after 5 minutes. \n\nLTIMindtree`
+      ? "Your account has been temporarily blocked due to too many failed OTP attempts. Please try again after 5 minutes. \n\nLTIMindtree"
       : `Your OTP is: ${otp}. Please do not share this OTP with anyone. \n\nLTIMindtree`,
   };
 
@@ -51,11 +51,7 @@ app.post("/api/login", (req, res) => {
     // If the user is blocked
     if (blockUntil && Date.now() < blockUntil) {
       const remainingTime = Math.ceil((blockUntil - Date.now()) / 1000);
-      sendOtpEmail(
-        email_or_phone,
-        null,
-        true
-      ); /* Notify user about the block through email */
+      sendOtpEmail(email_or_phone, null, true); // Notify user about the block through email
       return res.status(429).json({
         success: false,
         message: `Too many failed attempts. Please try again in ${remainingTime} seconds.`,
@@ -77,6 +73,30 @@ app.post("/api/login", (req, res) => {
   } else {
     res.json({ success: false, message: "Invalid credentials" });
   }
+});
+
+// Resend OTP endpoint
+app.post("/api/resend-otp", (req, res) => {
+  const { email_or_phone } = req.body;
+
+  // If the user is blocked
+  if (blockUntil && Date.now() < blockUntil) {
+    const remainingTime = Math.ceil((blockUntil - Date.now()) / 1000);
+    sendOtpEmail(email_or_phone, null, true); // Notify user about the block through email
+    return res.status(429).json({
+      success: false,
+      message: `Too many failed attempts. Please try again in ${remainingTime} seconds.`,
+    });
+  }
+
+  // Generate new OTP
+  generatedOtp = Math.floor(100000 + Math.random() * 900000);
+  console.log(`New OTP generated: ${generatedOtp}`);
+
+  // Send new OTP to user's email
+  sendOtpEmail(email_or_phone, generatedOtp);
+
+  res.json({ success: true, message: "New OTP sent to your email" });
 });
 
 // OTP verification endpoint
@@ -119,14 +139,9 @@ app.post("/api/verify-otp", (req, res) => {
       });
     }
 
-    // Regenerate OTP and send it again
-    generatedOtp = Math.floor(100000 + Math.random() * 900000);
-    console.log(`New OTP after failed attempt: ${generatedOtp}`);
-    sendOtpEmail(email_or_phone, generatedOtp);
-
     res.json({
       success: false,
-      message: `Invalid OTP. New OTP has been sent. Attempts left: ${5 - attempts}`,
+      message: `Invalid OTP. Attempts left: ${5 - attempts}`,
     });
   }
 });
