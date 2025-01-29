@@ -3,7 +3,7 @@ import styles from '../styles/improve_credit_score.module.css'; // Changed to CS
 
 function CreditScoreTips() {
   return (
-    <div className={styles.container}> {/* Updated */}
+    <div className={styles.credit_container}> {/* Updated */}
       <div className={styles.header}> {/* Updated */}
         <h1>Tips to Improve Your Credit Score</h1>
         <p>Follow these tips to maintain and improve your credit score effectively in India.</p>

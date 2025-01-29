@@ -1,4 +1,12 @@
 /* Reset some default browser styles */
+#form_contain{
+    height: 90vh;
+    overflow-y: scroll;
+
+}
+.form-container::-webkit-scrollbar{
+    visibility: hidden;
+}
 * {
     margin: 0;
     padding: 0;

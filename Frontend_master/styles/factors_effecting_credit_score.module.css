@@ -6,10 +6,22 @@ body {
   padding: 0;
   background: linear-gradient(to right, #b3e5fc, #e3f2fd);
   color: #333;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.container {
-  max-width: 1000px;
+.factor_container::-webkit-scrollbar{
+  visibility: hidden;
+}
+.factor_container {
+  height: 95%;
+    width: 80%;
+  
+  overflow-y: scroll;
+  /* max-width: 1000px; */
   margin: 40px auto;
   padding: 20px;
   background: #ffffff;

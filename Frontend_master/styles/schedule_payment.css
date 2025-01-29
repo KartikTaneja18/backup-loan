@@ -10,15 +10,20 @@ body {
     flex-direction: column;
     justify-content: center; /* Center the content vertically */
 }
-
+.repayment-container::-webkit-scrollbar{
+    visibility: hidden;
+  }
 .repayment-container {
-    max-width: 900px;
+    width: 80%;
+    height: 95%;
+    overflow-y: scroll;
+   
     margin: 40px auto; /* Center the container horizontally */
     padding: 20px;
     background: #ffffff;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%; /* Ensure it uses the full available width */
+     /* Ensure it uses the full available width */
 }
 
 .header {

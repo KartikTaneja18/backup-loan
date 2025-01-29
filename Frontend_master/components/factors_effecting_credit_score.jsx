@@ -1,15 +1,15 @@
 import React from 'react';
-import styles from '../styles/factors_effecting_credit_score.module.css'; // **Changed import to CSS Module**
+import styles from '../styles/factors_effecting_credit_score.module.css'; // *Changed import to CSS Module*
 
 export function CreditScoreFactors() {
   return (
-    <div className={styles.container}> {/* **Updated className to use CSS Module styles** */}
-      <div className={styles.header}> {/* **Updated className to use CSS Module styles** */}
+    <div className={styles.factor_container}> {/* *Updated className to use CSS Module styles* */}
+      <div className={styles.header}> {/* *Updated className to use CSS Module styles* */}
         <h1>Factors Affecting Your Credit Score</h1>
         <p>Understand the key elements that influence your credit score in India.</p>
       </div>
 
-      <ul className={styles['factors-list']}> {/* **Updated className to use CSS Module styles** */}
+      <ul className={styles['factors-list']}> {/* *Updated className to use CSS Module styles* */}
         {[
           { title: '1. Payment History', description: 'Timely repayment of loans and credit card bills significantly impacts your credit score.' },
           { title: '2. Credit Utilization Ratio', description: 'Using a high percentage of your available credit limit can lower your score.' },

@@ -31,6 +31,7 @@ import { LoanManagement } from '../components/employee_dashboard';
 
 function App() {
     return (
+        <div style={{width:"100vw",height:"100vh",display:"flex",alignItems:"center",justifyContent:"center",padding:"2vh"}}>
       <Router>
       <Routes>
           <Route path="/" element={<LoginPage />} />
@@ -56,10 +57,11 @@ function App() {
           <Route path="/schedule_payment" element={<LoanRepaymentSchedule />} />
 
           <Route path="/login_page" element={<LoginPage />} />
-
+        
 
       </Routes>
   </Router>
+  </div>
   
     );
 }

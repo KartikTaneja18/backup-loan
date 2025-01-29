@@ -13,7 +13,7 @@ function LoanApplicationForm() {
     };
 
     return (
-        <div className="form-container">
+        <div className="form-container" id='form_contain'>
             <h1>Loan Application Form</h1>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
