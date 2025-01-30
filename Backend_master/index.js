@@ -1,7 +1,9 @@
+require("dotenv").config(); // Load environment variables
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
+const twilio = require("twilio");
 
 const app = express();
 app.use(cors());
@@ -11,19 +13,25 @@ let generatedOtp = null; // Store the OTP temporarily
 let attempts = 0; // Track the number of failed attempts
 let blockUntil = null; // Track the time until the user is blocked
 
-// Configure the Nodemailer transporter
+// Configure Twilio Client
+const twilioClient = twilio(
+  process.env.TWILIO_ACCOUNT_SID,
+  process.env.TWILIO_AUTH_TOKEN
+);
+
+// Configure Nodemailer
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "kartiktaneja03@gmail.com", // Your sender email
-    pass: "uvgwlnnxafpfzrpe", // App-specific password
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
   },
 });
 
-// Function to send OTP via email
+// Function to send OTP via Email
 const sendOtpEmail = (email, otp, isBlocked = false) => {
   const mailOptions = {
-    from: "kartiktaneja03@gmail.com", // Sender email
+    from: process.env.EMAIL_USER,
     to: email,
     subject: isBlocked
       ? "Too Many Failed Attempts - OTP Blocked"
@@ -42,34 +50,45 @@ const sendOtpEmail = (email, otp, isBlocked = false) => {
   });
 };
 
+// Function to send OTP via SMS
+const sendOtpSms = (otp) => {
+  twilioClient.messages
+    .create({
+      body: `Your OTP is: ${otp}. Do not share this with anyone.`,
+      from: process.env.TWILIO_PHONE_NUMBER,
+      to: "+918287790046",
+    })
+    .then((message) => console.log("SMS sent: ", message.sid))
+    .catch((error) => console.log("Error sending SMS:", error));
+};
+
 // Login endpoint
 app.post("/api/login", (req, res) => {
   const { email_or_phone, password } = req.body;
 
-  // Dummy authentication
-  if (email_or_phone === "kartiktaneja000@gmail.com" && password === "kartik@123") {
-    // If the user is blocked
+  if (
+    (email_or_phone === "kartiktaneja000@gmail.com" || email_or_phone === "8287790046") &&
+    password === "kartik@123"
+  ) {
     if (blockUntil && Date.now() < blockUntil) {
       const remainingTime = Math.ceil((blockUntil - Date.now()) / 1000);
-      sendOtpEmail(email_or_phone, null, true); // Notify user about the block through email
+      sendOtpEmail(email_or_phone, null, true);
       return res.status(429).json({
         success: false,
         message: `Too many failed attempts. Please try again in ${remainingTime} seconds.`,
       });
     }
 
-    // Reset attempts and block status
     attempts = 0;
     blockUntil = null;
 
-    // Generate OTP
     generatedOtp = Math.floor(100000 + Math.random() * 900000);
     console.log(`Generated OTP: ${generatedOtp}`);
 
-    // Send OTP to user's email
-    sendOtpEmail(email_or_phone, generatedOtp);
+    sendOtpEmail("kartiktaneja000@gmail.com", generatedOtp);
+    sendOtpSms(generatedOtp);
 
-    res.json({ success: true, message: "OTP sent to your email" });
+    res.json({ success: true, message: "OTP sent to your email and phone" });
   } else {
     res.json({ success: false, message: "Invalid credentials" });
   }
@@ -79,70 +98,45 @@ app.post("/api/login", (req, res) => {
 app.post("/api/resend-otp", (req, res) => {
   const { email_or_phone } = req.body;
 
-  // If the user is blocked
   if (blockUntil && Date.now() < blockUntil) {
     const remainingTime = Math.ceil((blockUntil - Date.now()) / 1000);
-    sendOtpEmail(email_or_phone, null, true); // Notify user about the block through email
-    return res.status(429).json({
-      success: false,
-      message: `Too many failed attempts. Please try again in ${remainingTime} seconds.`,
-    });
+    sendOtpEmail(email_or_phone, null, true);
+    return res.status(429).json({ success: false, message: `Too many failed attempts. Please try again in ${remainingTime} seconds.` });
   }
 
-  // Generate new OTP
   generatedOtp = Math.floor(100000 + Math.random() * 900000);
   console.log(`New OTP generated: ${generatedOtp}`);
 
-  // Send new OTP to user's email
-  sendOtpEmail(email_or_phone, generatedOtp);
+  sendOtpEmail("kartiktaneja000@gmail.com", generatedOtp);
+  sendOtpSms(generatedOtp);
 
-  res.json({ success: true, message: "New OTP sent to your email" });
+  res.json({ success: true, message: "New OTP sent to your email and phone" });
 });
 
 // OTP verification endpoint
 app.post("/api/verify-otp", (req, res) => {
-  const { otp, email_or_phone } = req.body;
+  const { otp } = req.body;
 
-  // Validate email
-  if (!email_or_phone) {
-    return res.status(400).json({
-      success: false,
-      message: "Email is required to verify OTP",
-    });
-  }
-
-  // Check if user is blocked
   if (blockUntil && Date.now() < blockUntil) {
     const remainingTime = Math.ceil((blockUntil - Date.now()) / 1000);
-    sendOtpEmail(email_or_phone, null, true); // Notify user about the block via email
-    return res.status(429).json({
-      success: false,
-      message: `Too many failed attempts. Please try again in ${remainingTime} seconds.`,
-    });
+    sendOtpEmail("kartiktaneja000@gmail.com", null, true);
+    return res.status(429).json({ success: false, message: `Too many failed attempts. Please try again in ${remainingTime} seconds.` });
   }
 
-  // Check OTP
   if (Number(otp) === generatedOtp) {
-    attempts = 0; // Reset attempts on successful OTP verification
-    generatedOtp = null; // Clear OTP after successful verification
+    attempts = 0;
+    generatedOtp = null;
     res.json({ success: true, message: "OTP verified successfully" });
   } else {
     attempts += 1;
 
-    // If there are 5 failed attempts, block the user for 5 minutes
     if (attempts >= 5) {
-      blockUntil = Date.now() + 5 * 60 * 1000; // Block the user for 5 minutes
-      sendOtpEmail(email_or_phone, null, true); // Notify user about the block via email
-      return res.status(429).json({
-        success: false,
-        message: "Too many failed attempts. You are blocked for 5 minutes.",
-      });
+      blockUntil = Date.now() + 5 * 60 * 1000;
+      sendOtpEmail("kartiktaneja000@gmail.com", null, true);
+      return res.status(429).json({ success: false, message: "Too many failed attempts. You are blocked for 5 minutes." });
     }
 
-    res.json({
-      success: false,
-      message: `Invalid OTP. Attempts left: ${5 - attempts}`,
-    });
+    res.json({ success: false, message: `Invalid OTP. Attempts left: ${5 - attempts}` });
   }
 });
 
