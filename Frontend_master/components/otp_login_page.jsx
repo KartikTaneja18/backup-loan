@@ -55,7 +55,7 @@ export function OTPVerificationPage() {
 
       const data = await response.json();
       if (data.success) {
-        alert("OTP resent successfully. Please check your email.");
+        alert("OTP resent successfully. Please check your email and phone.");
       } else {
         alert(data.message || "Failed to resend OTP. Please try again.");
       }
