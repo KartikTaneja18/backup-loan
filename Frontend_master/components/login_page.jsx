@@ -18,7 +18,7 @@ export function LoginPage() {
             });
 
             if (response.data.success) {
-                alert('Login successful! OTP sent to your email.');
+                alert('Login successful! OTP sent to your email and phone.');
                 // Save email_or_phone to localStorage for use in OTP verification
                 localStorage.setItem('emailOrPhone', emailOrPhone);
                 navigate('/otp_login_page');
