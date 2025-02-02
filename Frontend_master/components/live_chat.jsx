@@ -1,52 +1,61 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate from React Router DOM
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { io } from "socket.io-client";
 import '../styles/live_chat.css';
-//routing done
 
-function LiveChat () {
+// Initialize socket outside component to avoid multiple connections
+const socket = io("http://localhost:3000");
+
+function LiveChat() {
     const [chatMessages, setChatMessages] = useState([
-        { sender: 'Support Agent', message: 'Hello! How can I assist you today with your loan application?' },
+        { sender: 'Support Agent', message: 'Hey! How can I assist you with your loan application?' },
     ]);
     const [userMessage, setUserMessage] = useState('');
     const [statusMessage, setStatusMessage] = useState('');
-    
-    const navigate = useNavigate(); // Initialize navigate hook
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        // Listen for messages from backend
+        socket.on("receive_message", (data) => {
+            setChatMessages((prevMessages) => [...prevMessages, { sender: data.sender, message: data.message }]);
+            setStatusMessage(''); // Clear typing status
+        });
+
+        // Listen for "Support Agent is typing..."
+        socket.on("agent_typing", () => {
+            setStatusMessage("Support Agent is typing...");
+        });
+
+        // Cleanup on unmount
+        return () => {
+            socket.off("receive_message");
+            socket.off("agent_typing");
+        };
+    }, []);
 
     const handleSendMessage = () => {
         if (userMessage.trim()) {
-            setChatMessages([
-                ...chatMessages,
-                { sender: 'You', message: userMessage },
-            ]);
-            setUserMessage('');
-            setStatusMessage('Sending message...');
+            // Add user message to chat
+            setChatMessages((prevMessages) => [...prevMessages, { sender: 'You', message: userMessage }]);
 
-            setTimeout(() => {
-                setChatMessages([
-                    ...chatMessages,
-                    { sender: 'You', message: userMessage },
-                    { sender: 'Support Agent', message: 'Thank you for reaching out! How can I help you further?' },
-                ]);
-                setStatusMessage('Support Agent is typing...');
-            }, 1500);
+            // Emit message to backend
+            socket.emit("send_message", { message: userMessage });
+
+            // Clear input field after sending
+            setUserMessage('');
         }
     };
 
     const handleEndChat = () => {
-        const confirmEnd = window.confirm('Are you sure you want to end the chat and return to the dashboard?');
-        if (confirmEnd) {
-            navigate('/loan_dashboard'); // Use navigate for routing to the Loan Dashboard page
+        if (window.confirm('Are you sure you want to end the chat and return to the dashboard?')) {
+            navigate('/loan_dashboard');
         }
     };
 
     const handleSaveChat = () => {
-        let chatContent = '';
-        chatMessages.forEach((message) => {
-            chatContent += `${message.sender}: ${message.message}\n`;
-        });
-
+        const chatContent = chatMessages.map(msg => `${msg.sender}: ${msg.message}`).join("\n");
         sessionStorage.setItem('savedChat', chatContent);
-        navigate('/saveChat'); // Use navigate for routing to the Save Chat page
+        navigate('/saveChat');
     };
 
     return (
@@ -70,7 +79,11 @@ function LiveChat () {
                     className="chat-input"
                     placeholder="Type your message..."
                     value={userMessage}
-                    onChange={(e) => setUserMessage(e.target.value)}
+                    onChange={(e) => {
+                        setUserMessage(e.target.value);
+                        socket.emit("user_typing"); // Notify backend when user types
+                    }}
+                    onFocus={() => setUserMessage('')} 
                 />
                 <button id="send-button" className="send-button" onClick={handleSendMessage}>
                     Send
@@ -91,6 +104,6 @@ function LiveChat () {
             </div>
         </div>
     );
-};
+}
 
 export { LiveChat };
