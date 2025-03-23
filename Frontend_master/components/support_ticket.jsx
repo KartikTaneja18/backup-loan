@@ -1,26 +1,58 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
-import '../styles/support_ticket.css';
-//routing done
+import React from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
+import "../styles/support_ticket.css";
 
 export function SupportTicket() {
     const navigate = useNavigate(); // Initialize useNavigate hook for navigation
 
-    const handleSubmit = (e) => {
+    const validateEmail = (email) => {
+        // Regular expression for validating an email
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return emailRegex.test(email);
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault(); // Prevent default form submission
 
         const ticketSubject = document.getElementById("ticket-subject").value;
         const ticketDescription = document.getElementById("ticket-description").value;
         const contactEmail = document.getElementById("contact-email").value;
-        
-        // Validation could be added here if necessary.
+
         if (!ticketSubject || !ticketDescription || !contactEmail) {
             alert("Please fill in all required fields before submitting.");
             return;
         }
 
-        // After form validation, navigate to the ticket submission confirmation page
-        navigate('/ticket_submitted'); // Navigate to the ticket submission confirmation page
+        if (!validateEmail(contactEmail)) {
+            alert("Please enter a valid email address.");
+            return;
+        }
+
+        const ticketData = {
+            subject: ticketSubject,
+            description: ticketDescription,
+            userEmail: contactEmail,
+        };
+
+        try {
+            const response = await fetch("http://localhost:5000/api/submit-ticket", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(ticketData),
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                alert("Ticket submitted successfully! Admin has been notified.");
+                navigate('/ticket_submitted');
+            } else {
+                alert("Failed to submit ticket. Please try again.");
+            }
+        } catch (error) {
+            console.error("Error submitting ticket:", error);
+            alert("An error occurred. Please try again later.");
+        }
     };
 
     return (

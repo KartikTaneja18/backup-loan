@@ -5,6 +5,9 @@ const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
 const twilio = require("twilio");
 
+const hbs = require("hbs"); // Import Handlebars
+const fs = require("fs"); // File system module
+
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
@@ -139,6 +142,46 @@ app.post("/api/verify-otp", (req, res) => {
     res.json({ success: false, message: `Invalid OTP. Attempts left: ${5 - attempts}` });
   }
 });
+
+
+// Read Handlebars template file
+const emailTemplate = fs.readFileSync("templates/support_ticket_email.hbs", "utf-8");
+
+// New API to handle ticket submission
+app.post("/api/submit-ticket", (req, res) => {
+    const { subject, description,  userEmail } = req.body;
+
+    if (!subject || !description || !userEmail) {
+        return res.status(400).json({ success: false, message: "All fields are required." });
+    }
+
+
+    // Compile template with Handlebars
+    const compiledTemplate = hbs.compile(emailTemplate);
+    const emailHtml = compiledTemplate({
+        subject,
+        description,
+        userEmail
+    });
+
+    const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: process.env.EMAIL_USER, // Admin Email (Already in .env)
+        subject: "New Support Ticket Submitted",
+        html: emailHtml, // Sending HTML Email
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.log("Error sending support ticket email:", error);
+            return res.status(500).json({ success: false, message: "Failed to send ticket email." });
+        }
+        console.log("Support Ticket Email sent:", info.response);
+        res.json({ success: true, message: "Support ticket submitted successfully." });
+    });
+});
+
+
 
 // Start the server
 const PORT = 5000;

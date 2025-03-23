@@ -110,3 +110,18 @@ body {
 .btn-live-chat:hover {
     background-color: #218838;
 }
+
+#ticket-priority {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #fff;
+    margin-top: 5px;
+}
+
+#ticket-priority:focus {
+    border-color: #007bff;
+    outline: none;
+}
